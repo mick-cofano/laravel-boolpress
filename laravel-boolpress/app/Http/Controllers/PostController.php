@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Post;
 use App\Author;
 
+
 class PostController extends Controller
 {
     /**
@@ -39,9 +40,21 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+
+        //stupidocheck xD
+        $author_id = $data['author_id'];
+        if(!Author::find($author_id)) {
+            dd('Questo è un check stupidello0o0o');
+
+            // e redirect su una pagina di help ->
+        }
+
+
         $post = new Post();
         $post->fill($data);
         $post->save();
+
+        return redirect()->route('posts.index');
     }
 
     /**
