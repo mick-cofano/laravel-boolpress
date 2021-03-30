@@ -27,6 +27,10 @@ class PostController extends Controller
      */
     public function create()
     {
+        // per cercare i tags (ovviamente adesso sono 0)
+        // $post = Post::find(1);
+        // dd($post->tags);
+
         $authors = Author::all();
         return view('post.create', compact('authors'));
     }
