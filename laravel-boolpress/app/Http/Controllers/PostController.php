@@ -56,12 +56,20 @@ class PostController extends Controller
             // e redirect su una pagina di help ->
         }
 
+        $finalArrayTags = $data['tags'];
+        $allTags = Tag::all();
+        foreach($allTags as $tag) {
+            if(stripos($data['body'], $tag->name) !== false) {
+                $finalArrayTags[] = $tag->id;
+            }
+        }
+
 
         $post = new Post();
         $post->fill($data);
         $post->save();
 
-        $post->tags()->attach($data['tags']);
+        $post->tags()->attach($finalArrayTags);
 
 
         return redirect()->route('posts.index');
