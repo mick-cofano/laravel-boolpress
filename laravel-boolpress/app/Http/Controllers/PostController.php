@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Post;
 use App\Author;
 use App\Tag;
+use App\Mail\PostCreated;
+use Illuminate\Support\Facades\Mail;
 
 
 class PostController extends Controller
@@ -17,6 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
+
         $posts = Post::all();
         return view('post.index', compact('posts'));
     }
@@ -70,6 +73,9 @@ class PostController extends Controller
         $post->save();
 
         $post->tags()->attach($finalArrayTags);
+
+        $mailableObject = new PostCreated($post);
+        Mail::to('brutalmachinelol@gmail.com')->send($mailableObject);
 
 
         return redirect()->route('posts.index');
